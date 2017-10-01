@@ -243,8 +243,7 @@ class Application extends App {
 		});
 
 		$container->registerService('UserProvider', function(IContainer $c) {
-			$version = \OCP\Util::getVersion();
-			if ($version[0] === 13) {
+			if (self::contactsStoreApiSupporetd()) {
 				return new ContactsStoreUserProvider(
 					$c->query('OCP\Contacts\ContactsMenu\IContactsStore'),
 					$c->query('ServerContainer')->getUserSession(),
@@ -334,4 +333,14 @@ class Application extends App {
 		);
 
 	}
+
+	/**
+	 * @brief whether the ContactsStore API is enabled
+	 * @return bool
+	 */
+	public static function contactsStoreApiSupporetd() {
+		$version = \OCP\Util::getVersion();
+		 return $version[0] === 13;
+	}
+
 }

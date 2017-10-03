@@ -325,6 +325,16 @@
             jsxc.storage.removeUserItem('defaultAvatars');
         });
 
+        $(document).on('connfail.jsxc', function(ev, condition) {
+            if (condition === 'x-nc-not_allowed_to_chat') {
+                jsxc.gui.roster.toggle(jsxc.CONST.HIDDEN);
+                $('.jsxc_chatIcon').remove();
+                jsxc.storage.removeItem('jid');
+                jsxc.storage.removeItem('sid');
+                jsxc.storage.removeItem('rid');
+            }
+        });
+
         $(document).on('status.contacts.count status.contact.updated', function() {
             if (jsxc.restoreCompleted) {
                 setTimeout(function() {
@@ -388,5 +398,7 @@
         if ($('#contactsmenu').length > 0) {
             observeContactsMenu();
         }
+
     });
+
 }(jQuery));
